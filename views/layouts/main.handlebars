@@ -12,9 +12,13 @@
     <section class="hero is-small is-link">
         <div class="is-flex is-flex-direction-column is-align-content-start">
             <div class="column is-one-fifth is-flex is-justify-content-space-between ml-2">
-                <h1 class='is-size-5'>Home</h1>
-                <h1 class='is-size-5'>Dashboard</h1>
-                <h1 class='is-size-5'>Logout</h1>
+                <a href="/">Home</a>
+                <a href="/login">Dashboard</a>
+                {{#if loggedIn}}
+                <button id="logout" class="button">Logout</button>
+                {{else}}
+                <a href="/login">Login</a>
+                {{/if}}
             </div>
             <div class="column hero-body is-one-quarter is-flex if-justify-content-left">
                 <div class="is-flex is-justify-content-center">
@@ -26,7 +30,7 @@
         </div>
     </section>
     <section class="section">
-
+        {{{body}}}
     </section>
 </body>
 
