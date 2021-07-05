@@ -15,20 +15,37 @@ const loginFormHandler = async (event) => {
       headers: { "Content-Type": "application/json" }
     });
     if (response.ok) {
-      document.location.replace("/");
+      document.location.replace("/homepage");
     } else {
       alert("Failed to log in");
     }
   }
 };
 
-const signupHandler = (event) => {
+const signupHandler = async (event) => {
   console.log(event);
   event.preventDefault();
 
   const name = document.querySelector("#signUpName").value.trim();
+  const email = document
+    .querySelector("#signUpEmail")
+    .value.trim()
+    .toLowerCase();
+  const password = document.querySelector("#signUpPassword").value.trim();
 
-  console.log(name);
+  if (name && email && password) {
+    const response = await fetch("/api/users", {
+      method: "POST",
+      body: JSON.stringify({ name, email, password }),
+      headers: { "Content-Type": "application/json" }
+    });
+
+    if (response.ok) {
+      document.location.replace("/homepage");
+    } else {
+      alert("Failed to sign up, please try again");
+    }
+  }
 };
 
 document
