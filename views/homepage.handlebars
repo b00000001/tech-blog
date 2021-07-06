@@ -1,1 +1,4 @@
 <h1>Logged In! Welcome {{user.username}}</h1>
+{{#each posts as |post| }}
+<p>{{post.text}}</p>
+{{/each}}
