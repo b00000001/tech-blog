@@ -5,17 +5,9 @@ router.get("/", async (req, res) => {
   console.log(req.session);
   try {
     const dbPostData = await Posts.findAll({
-      attributes: ["id", "title", "created_at", "text"],
-      include: [
-        {
-          model: User,
-          attributes: ["username"]
-        }
-      ]
+      attributes: ["id", "title", "created_at", "text"]
     });
     const posts = await dbPostData.map((post) => post.get({ plain: true }));
-    const currentUserData = await User.findByPk(req.session.user_id);
-    const user = currentUserData.get({ plain: true });
     res.render("homepage", { posts, loggedIn: req.session.loggedIn });
   } catch (err) {
     console.log(err);

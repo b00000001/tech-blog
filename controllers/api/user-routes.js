@@ -21,6 +21,16 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.post("/logout", (req, res) => {
+  if (req.session.loggedIn) {
+    req.session.destroy(() => {
+      res.status(204).end();
+    });
+  } else {
+    res.status(404).end();
+  }
+});
+
 router.post("/login", async (req, res) => {
   console.log("login route");
   try {
@@ -41,7 +51,7 @@ router.post("/login", async (req, res) => {
     }
     req.session.save(() => {
       req.session.user_id = userData.dataValues.id;
-      req.session.logged_in = true;
+      req.session.loggedIn = true;
       res.json({ user: userData.dataValues, message: "You are now logged in" });
     });
   } catch (err) {
