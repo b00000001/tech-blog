@@ -5,7 +5,13 @@ router.get("/", async (req, res) => {
   console.log(req.session);
   try {
     const dbPostData = await Posts.findAll({
-      attributes: ["id", "title", "created_at", "text"]
+      attributes: ["id", "title", "created_at", "text"],
+      include: [
+        {
+          model: User,
+          attributes: ["username"]
+        }
+      ]
     });
     const posts = await dbPostData.map((post) => post.get({ plain: true }));
     res.render("homepage", { posts, loggedIn: req.session.loggedIn });

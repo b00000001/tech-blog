@@ -9,7 +9,13 @@ router.get("/", withAuth, async (req, res) => {
       where: {
         user_id: req.session.user_id
       },
-      attributes: ["id", "title", "created_at", "text"]
+      attributes: ["id", "title", "created_at", "text"],
+      include: [
+        {
+          model: User,
+          attributes: ["username"]
+        }
+      ]
     });
     const posts = dbPostData.map((post) => post.get({ plain: true }));
     res.render("dashboard", { posts, loggedIn: true });
