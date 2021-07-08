@@ -37,4 +37,28 @@ router.post("/", withAuth, async (req, res) => {
   }
 });
 
+router.put("/:id", withAuth, async (req, res) => {
+  try {
+    const dbPostData = await Posts.update(
+      {
+        title: req.body.title,
+        text: req.body.post_content
+      },
+      {
+        where: {
+          id: req.params.id
+        }
+      }
+    );
+    if (!dbPostData) {
+      res.status(404).json({ message: "No post found with this id" });
+      return;
+    }
+    res.json(dbPostData);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;
