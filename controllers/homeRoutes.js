@@ -2,34 +2,63 @@ const router = require("express").Router();
 const { User, Posts } = require("../models");
 
 router.get("/", async (req, res) => {
-  res.render("login");
+  console.log(req.session);
+  try {
+    const dbPostData = await Posts.findAll({
+      attributes: ["id", "title", "created_at", "text"],
+      include: [
+        {
+          model: User,
+          attributes: ["username"]
+        }
+      ]
+    });
+    const posts = await dbPostData.map((post) => post.get({ plain: true }));
+    const currentUserData = await User.findByPk(req.session.user_id);
+    const user = currentUserData.get({ plain: true });
+    res.render("homepage", { posts, loggedIn: req.session.loggedIn });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
 });
 
 router.get("/login", (req, res) => {
   if (req.session.loggedIn) {
-    res.redirect("/homepage");
+    res.redirect("/");
     return;
   }
+  res.render("login");
 });
 
-router.get("/homepage", async (req, res) => {
-  console.log(req.session);
+router.get("/signup", (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect("/");
+    return;
+  }
+
+  res.render("signup");
+});
+
+router.get("/post/:id", async (req, res) => {
   try {
-    const currentUserData = await User.findByPk(req.session.user_id);
-    const user = currentUserData.get({ plain: true });
-    const dbPostData = await Posts.findAll({
-      // attributes: ["id", "title"],
-      // include: [
-      //   {
-      //     model: User,
-      //     attributes: ["username"]
-      //   }
-      // ]
+    const dbPostData = await Posts.findOne({
+      where: {
+        id: req.params.id
+      },
+      attributes: ["id", "title", "created_at", "text"]
     });
-    const posts = await dbPostData.map((post) => post.get({ plain: true }));
-    console.log("Post:", posts);
-    res.render("homepage", { user, posts, loggedIn: req.session.loggedIn });
+    if (!dbPostData) {
+      res.status(404).json({ message: "No post found with this id" });
+      return;
+    }
+    const post = dbPostData.get({ plain: true });
+    res.render("showpost", {
+      post,
+      loggedIn: req.session.loggedIn
+    });
   } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 });
