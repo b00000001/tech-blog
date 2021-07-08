@@ -14,13 +14,13 @@
         <div class="is-flex is-flex-direction-column is-align-content-start">
             <div class="column is-one-fifth is-flex is-justify-content-space-between ml-2">
                 {{#if loggedIn}}
-                <a href="/" class="navbar-item is-hoverable pt-1">homepage</a>
-                <a href="/dashboard" class="navbar-item is-hoverable pt-1">dashboard</a>
-                <a href="/dashboard/create/" class="navbar-item is-hoverable pt-1 mr-4">create post</a>
+                <a href="/" class="navbar-item is-hoverable pt-1">Homepage</a>
+                <a href="/dashboard" class="navbar-item is-hoverable pt-1">Dashboard</a>
+                <a href="/dashboard/create/" class="navbar-item is-hoverable pt-1 mr-4">Create Post</a>
                 <button id="logout" class="button">Logout</button>
                 {{else}}
                 <a href="/" class="navbar-item is-hoverable pt-1">Home Page</a>
-                <a href="/login">Login</a>
+                <a href="/login">Login/Signup</a>
                 {{/if}}
             </div>
             <div class="column hero-body is-one-quarter is-flex if-justify-content-left">
@@ -38,18 +38,18 @@
     <footer class="footer rows pb-2">
         <div class="row-is-full content has-text-centered">
             <p>
-                <a href="/">homepage</a>{{#if loggedIn}} |
-                <a href="/dashboard/">dashboard</a> |
-                <a href="/dashboard/create/">create new post</a>
+                <a href="/">Homepage</a>{{#if loggedIn}} |
+                <a href="/dashboard/">Dashboard</a> |
+                <a href="/dashboard/create/">Create new post</a>
                 {{else}}
-                | <a href="/login/">login</a>
+                | <a href="/login/">Login/Signup</a>
                 {{/if}}
             </p>
         </div>
         <div class="row-is-full content has-text-centered">
             <p>
                 <strong>Tech Blog</strong> by <a href="https://github.com/b00000001">Aaron Deas</a> | made
-                with <a href="https://bulma.io/">bulma</a> | source code:
+                with <a href="https://bulma.io/">Bulma CSS</a> | source code:
                 <a href="https://github.com/b00000001/tech-blog"><i class="fab fa-github"></i></a> |
                 <a href="mailto:deas.aaron3@gmail.com"><i class="far fa-envelope"></i></a>
             </p>
