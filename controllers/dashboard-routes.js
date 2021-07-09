@@ -3,7 +3,7 @@ const sequelize = require("../config/connection");
 const { Posts, User, Comment } = require("../models");
 const withAuth = require("../utils/auth");
 const { route } = require("./homeRoutes");
-
+// Dashboard Routes
 router.get("/", withAuth, async (req, res) => {
   try {
     const dbPostData = await Posts.findAll({
