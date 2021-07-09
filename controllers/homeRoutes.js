@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { User, Posts } = require("../models");
+const { User, Posts, Comment } = require("../models");
 
 router.get("/", async (req, res) => {
   console.log(req.session);
@@ -7,6 +7,20 @@ router.get("/", async (req, res) => {
     const dbPostData = await Posts.findAll({
       attributes: ["id", "title", "created_at", "text"],
       include: [
+        {
+          model: Comment,
+          attributes: [
+            "id",
+            "comment_text",
+            "post_id",
+            "user_id",
+            "created_at"
+          ],
+          include: {
+            model: User,
+            attributes: ["username"]
+          }
+        },
         {
           model: User,
           attributes: ["username"]
@@ -44,7 +58,27 @@ router.get("/post/:id", async (req, res) => {
       where: {
         id: req.params.id
       },
-      attributes: ["id", "title", "created_at", "text"]
+      attributes: ["id", "title", "created_at", "text"],
+      include: [
+        {
+          model: Comment,
+          attributes: [
+            "id",
+            "comment_text",
+            "post_id",
+            "user_id",
+            "created_at"
+          ],
+          include: {
+            model: User,
+            attributes: ["username"]
+          }
+        },
+        {
+          model: User,
+          attributes: ["username"]
+        }
+      ]
     });
     if (!dbPostData) {
       res.status(404).json({ message: "No post found with this id" });

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Posts, User } = require("../../models");
+const { Posts, User, Comment } = require("../../models");
 const sequelize = require("../../config/connection");
 const withAuth = require("../../utils/auth");
 
@@ -10,6 +10,20 @@ router.get("/", async (req, res) => {
       order: [["created_at", "DESC"]],
       include: [
         // Comment model here -- attached username to comment
+        {
+          model: Comment,
+          attributes: [
+            "id",
+            "comment_text",
+            "post_id",
+            "user_id",
+            "created_at"
+          ],
+          include: {
+            model: User,
+            attributes: ["username"]
+          }
+        },
         {
           model: User,
           attributes: ["username"]
@@ -29,9 +43,8 @@ router.get("/:id", async (req, res) => {
       where: {
         id: req.params.id
       },
-      attributes: ["id", "title", "created_at", "post_content"],
+      attributes: ["id", "title", "created_at", "text"],
       include: [
-        // include the Comment model here:
         {
           model: User,
           attributes: ["username"]
