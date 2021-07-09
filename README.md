@@ -4,7 +4,7 @@
 
 # Description
 
-This is a tech blog built using NodeJS,
+This is a tech blog built using NodeJS, ExpressJS, SequelizeJS and leverages BulmaCSS and Font Awesome for the front end. This application makes use of Sequelize as an ORM manager and saves data to a MYSQL2 database in the form of JawsDB as hosted on Heroku.
 
 # Table of Contents
 
